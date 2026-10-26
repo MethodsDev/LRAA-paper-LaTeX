@@ -77,6 +77,9 @@
 \newif\ifshowcomments \showcommentstrue
 \newcommand{\pending}[1]{\textcolor{orange}{#1}}
 \newcommand{\doccomment}[3]{\ifshowcomments{\footnotesize\textcolor{red}{[#1, #2: #3]}}\fi}
+% \tofix{text}{note}: text made out of date by the 2026-10 figure rework (magenta), with what changed;
+%   also hidden by \showcommentsfalse. Remove the mark once the text is updated.
+\newcommand{\tofix}[2]{\ifshowcomments\textcolor{magenta}{#1}{\footnotesize\textcolor{magenta}{[\textbf{to fix:} #2]}}\else #1\fi}
 
 \begin{document}
 

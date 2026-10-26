@@ -72,13 +72,14 @@ still the Google Doc images in `figures/docx_export/`. `figures/fixed/` holds su
 | Fig 3 (cell lines) | `benchmark/Fig3_benchmarks_cell_lines.pdf` | `__PaperFigs/benchmark_figs/` |
 | Fig 4 (sc pipeline) | `docx_export/Fig4.png` | no (schematic) |
 | Fig 5 (PBMC) | `main/Fig5.pdf` | `__PaperFigs/main_figs/Fig5.tex` assembles the eval tree's panels (heatmap, AIF1 and SELENOH blocks) with `fixed/` (UMAP, AIF1 structure) |
-| Fig 6 (FTD/ALS) | `docx_export/Fig6.png` (doc) | panels only: `ALS_LP00714/ALS_LRAA_eval/__Paper_Figures/` (STMN2, ATP5MJ; the doc shows STMN2 and EIF1) |
+| Fig 6 (FTD/ALS) | `main/Fig6.pdf` | `__PaperFigs/main_figs/Fig6.tex` assembles the eval tree's panels (cluster dendrogram, STMN2 and ATP5MJ blocks) with `fixed/` (UMAP) |
 | Supp Fig 1 (algorithm) | `docx_export/SuppFig1.png` | no (schematic) |
 | Supp Fig 2 (sim error rates) | `benchmark/SuppFig2_benchmarks_sim_error_rates.pdf` | `__PaperFigs/benchmark_figs/` |
 | Supp Fig 3 (SIRV E0/E2) | `benchmark/SuppFig3_benchmarks_SIRVs_E0_E2.pdf` | `__PaperFigs/benchmark_figs/` |
 | Supp Fig 4 (MORFs) | a: `fixed/Supp_Fig_4-MORFsGenomeView.pdf` (supplied, not built); b: `benchmark/SuppFig4b_benchmarks_MORFs_ONT.pdf` | panel b only |
 | Supp Fig 5 (SQANTI-like scheme) | `docx_export/SuppFig5.png` | no (schematic) |
-| Supp Fig 6, 7 (proteoforms) | `docx_export/SuppFig6.jpg`, `SuppFig7.jpg` (doc) | no |
+| Supp Fig 6 (read and isoform categories, PBMC and FTD; were Figs 5a,b and 6a,b) | `supp/SuppFig_categories.pdf` | `__PaperFigs/supp_figs/SuppFig_categories.R` |
+| Supp Fig 7, 8 (proteoforms) | `docx_export/SuppFig6.jpg`, `SuppFig7.jpg` (doc) | no |
 
 ## The conversion (`tools/`)
 
