@@ -79,7 +79,7 @@ still the Google Doc images in `figures/docx_export/`. `figures/fixed/` holds su
 | Supp Fig 4 (MORFs) | a: `fixed/Supp_Fig_4-MORFsGenomeView.pdf` (supplied, not built); b: `benchmark/SuppFig4b_benchmarks_MORFs_ONT.pdf` | panel b only |
 | Supp Fig 5 (SQANTI-like scheme) | `docx_export/SuppFig5.png` | no (schematic) |
 | Supp Fig 6 (read and isoform categories, PBMC and FTD; were Figs 5a,b and 6a,b) | `supp/SuppFig_categories.pdf` | `__PaperFigs/supp_figs/SuppFig_categories.R` |
-| Supp Fig 7, 8 (proteoforms) | `docx_export/SuppFig6.jpg`, `SuppFig7.jpg` (doc) | no |
+| Supp Fig 7, 8 (proteoforms) | `supp/SuppFig_proteoforms_PBMC.pdf`, `supp/SuppFig_proteoforms_FTD.pdf` | `LRAA_proteoform_analyses/LRAA_proteoform_analysis_PBMC_ALS_20260528.ipynb` (v0.45.0 ORFs) |
 
 ## The conversion (`tools/`)
 

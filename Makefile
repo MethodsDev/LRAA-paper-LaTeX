@@ -20,12 +20,15 @@ MAIN_FIGS := Fig5 Fig6
 MAIN_SRC ?= ../__PaperFigs/main_figs
 SUPP_FIGS := SuppFig_categories
 SUPP_SRC ?= ../__PaperFigs/supp_figs
+PROT_FIGS := SuppFig_proteoforms_PBMC SuppFig_proteoforms_FTD
+PROT_SRC ?= ../LRAA_proteoform_analyses
 
 sync-figs:
 	@test -d $(BMARK_SRC) || { echo "no $(BMARK_SRC): run from the analysis repo's submodule"; exit 1; }
 	cp $(addprefix $(BMARK_SRC)/,$(addsuffix .pdf,$(BMARK_FIGS))) figures/benchmark/
 	cp $(addprefix $(MAIN_SRC)/,$(addsuffix .pdf,$(MAIN_FIGS))) figures/main/
 	cp $(addprefix $(SUPP_SRC)/,$(addsuffix .pdf,$(SUPP_FIGS))) figures/supp/
+	cp $(addprefix $(PROT_SRC)/,$(addsuffix .pdf,$(PROT_FIGS))) figures/supp/
 
 clean:
 	rm -f main.aux main.bbl main.blg main.log main.out main.toc main.pdf
