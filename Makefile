@@ -15,10 +15,14 @@ main.pdf: $(TEX) refs.bib $(wildcard figures/*/*)
 BMARK_FIGS := Fig2_benchmarks_sims_SIRVs_MORFs Fig3_benchmarks_cell_lines \
 	SuppFig2_benchmarks_sim_error_rates SuppFig3_benchmarks_SIRVs_E0_E2 SuppFig4b_benchmarks_MORFs_ONT
 BMARK_SRC ?= ../__PaperFigs/benchmark_figs
+# assembled main figures (__PaperFigs/main_figs/: make there first)
+MAIN_FIGS := Fig5
+MAIN_SRC ?= ../__PaperFigs/main_figs
 
 sync-figs:
 	@test -d $(BMARK_SRC) || { echo "no $(BMARK_SRC): run from the analysis repo's submodule"; exit 1; }
 	cp $(addprefix $(BMARK_SRC)/,$(addsuffix .pdf,$(BMARK_FIGS))) figures/benchmark/
+	cp $(addprefix $(MAIN_SRC)/,$(addsuffix .pdf,$(MAIN_FIGS))) figures/main/
 
 clean:
 	rm -f main.aux main.bbl main.blg main.log main.out main.toc main.pdf

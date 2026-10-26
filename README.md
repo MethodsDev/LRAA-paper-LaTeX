@@ -71,7 +71,7 @@ still the Google Doc images in `figures/docx_export/`. `figures/fixed/` holds su
 | Fig 2 (sims, SIRVs, MORFs) | `benchmark/Fig2_benchmarks_sims_SIRVs_MORFs.pdf` | `__PaperFigs/benchmark_figs/` |
 | Fig 3 (cell lines) | `benchmark/Fig3_benchmarks_cell_lines.pdf` | `__PaperFigs/benchmark_figs/` |
 | Fig 4 (sc pipeline) | `docx_export/Fig4.png` | no (schematic) |
-| Fig 5 (PBMC) | `docx_export/Fig5.png` (doc) | panels only: `PBMCs_kinnex/LRAA_PBMCs_eval/__Paper_Figures/` (AIF1, SELENOH; the doc shows AIF1 and EMP3) |
+| Fig 5 (PBMC) | `main/Fig5.pdf` | `__PaperFigs/main_figs/Fig5.tex` assembles the eval tree's panels (heatmap, AIF1 and SELENOH blocks) with `fixed/` (UMAP, AIF1 structure) |
 | Fig 6 (FTD/ALS) | `docx_export/Fig6.png` (doc) | panels only: `ALS_LP00714/ALS_LRAA_eval/__Paper_Figures/` (STMN2, ATP5MJ; the doc shows STMN2 and EIF1) |
 | Supp Fig 1 (algorithm) | `docx_export/SuppFig1.png` | no (schematic) |
 | Supp Fig 2 (sim error rates) | `benchmark/SuppFig2_benchmarks_sim_error_rates.pdf` | `__PaperFigs/benchmark_figs/` |
