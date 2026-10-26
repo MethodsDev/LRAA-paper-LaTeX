@@ -63,7 +63,7 @@ switches on the engine, so the same `main.tex` builds with pdfLaTeX + BibTeX on 
 `figures/benchmark/` holds the benchmark figures the analysis repo builds, copied in so Overleaf
 can see them. They are on LRAA v0.45.0-f8db47e (copied 2026-10-26). To refresh them, rebuild
 `<analysis repo>/__PaperFigs/benchmark_figs/` and run `make sync-figs` here. The other figures are
-still the Google Doc images in `figures/docx_export/`.
+still the Google Doc images in `figures/docx_export/`. `figures/fixed/` holds supplied panels that no script builds (schematics, renders); they carry no panel letters, which the LaTeX or the assembly adds.
 
 | figure | in the paper | built in the analysis repo |
 |---|---|---|
@@ -76,7 +76,7 @@ still the Google Doc images in `figures/docx_export/`.
 | Supp Fig 1 (algorithm) | `docx_export/SuppFig1.png` | no (schematic) |
 | Supp Fig 2 (sim error rates) | `benchmark/SuppFig2_benchmarks_sim_error_rates.pdf` | `__PaperFigs/benchmark_figs/` |
 | Supp Fig 3 (SIRV E0/E2) | `benchmark/SuppFig3_benchmarks_SIRVs_E0_E2.pdf` | `__PaperFigs/benchmark_figs/` |
-| Supp Fig 4 (MORFs) | a: `docx_export/SuppFig4a.png` (the doc image, cropped); b: `benchmark/SuppFig4b_benchmarks_MORFs_ONT.pdf` | panel b only |
+| Supp Fig 4 (MORFs) | a: `fixed/Supp_Fig_4-MORFsGenomeView.pdf` (supplied, not built); b: `benchmark/SuppFig4b_benchmarks_MORFs_ONT.pdf` | panel b only |
 | Supp Fig 5 (SQANTI-like scheme) | `docx_export/SuppFig5.png` | no (schematic) |
 | Supp Fig 6, 7 (proteoforms) | `docx_export/SuppFig6.jpg`, `SuppFig7.jpg` (doc) | no |
 
