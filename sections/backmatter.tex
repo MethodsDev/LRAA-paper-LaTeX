@@ -1,0 +1,116 @@
+\section{Acknowledgements}\label{acknowledgements}
+
+This work was supported by Broad Clinical Labs, a collaboration agreement between Pacific Biosciences of California, Inc. and the Broad Institute, and the Next Generation Fund Award from Broad Institute to AMA. MP was supported by the National Institutes of Health (R01NS120992, U54NS123743), the Target ALS Foundation, the BrightFocus Foundation (A2024017S), and the Kissick Family Foundation. CLT is the recipient of the Araminta Broch-Healey Endowed Chair in ALS. SA was the recipient of a Cullen Education and Research Foundation Young Investigator award and the Gluck ALS Research Scholar Award. CLT, MW and PB are supported by NIH/NINDS RM1NS133601 and the Chan Zuckerberg Initiative.
+
+\emph{Author contributions}: BJH, HY, and AMA designed the project. HY and BJH wrote the initial manuscript draft, performed analyses, and contributed to LRAA algorithm development. BJH led development of the LRAA software tool with contributions from HY, JW, CG, AK, and GA. DAB generated mORF data. AS and EW generated long-read RNA-seq libraries. XR, FH and SB prepared the single nuclei cDNA libraries. MP and DWD provided resources. VP advised on analysis and methods. AMA supervised the work. All authors contributed to the final manuscript.
+
+\emph{AI assistance disclosure}: Generative AI tools (from OpenAI, Anthropic, and Google) were used to assist with drafting and editing text and with assisting software development efforts. All AI-generated content was reviewed, tested, and revised by the authors, who take full responsibility for the final manuscript and software.
+
+\textbf{Data Resources Table}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2528}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4139}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Data set
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Location
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Simulated Mouse long RNA-seq
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+IsoSeqSim 0, 1.6, 5, and 8.5\% error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Zenodo: \href{https://zenodo.org/records/20723121}{10.5281/zenodo.20723121}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Simulated Arabidopsis long RNA-seq
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+IsoSeqSim 0, 1.6, 5, and 8.5\% error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Zenodo: \url{https://zenodo.org/records/20731975}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+SIRVs
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PacBio Kinnex
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+SRA: SRR39095152,
+
+SRR39095153,
+
+SRR39095154,
+
+SRR39095155,
+
+SRR39095156,
+
+SRR39095157,
+
+SRR39095158,
+
+SRR39095159,
+
+SRR39095164,
+
+SRR39095165,
+
+SRR39095166,
+
+SRR39095167
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+MORFs
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PacBio Kinnex and ONT
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+SRA -
+
+Kinnex: SRR39261688
+
+ONT: SRR39261689
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Whole transcriptomes
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PacBio Kinnex for BT474, K562, HG002, and UHRR\\
+\strut \\
+ONT for A549, MCF7 from SG-NEx\strut
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+SRA - Kinnex:
+
+SRR39095160,
+
+SRR39095161,
+
+SRR39095162,
+
+SRR39095163
+
+SGNex\_A549\_cDNAStranded\_replicate5\_run2: \url{http://sg-nex-data.s3.amazonaws.com/data/sequencing_data_ont/fastq/SGNex_A549_cDNAStranded_replicate5_run2/SGNex_A549_cDNAStranded_replicate5_run2.fastq.gz}
+
+SGNex\_MCF7\_cDNAStranded\_replicate3\_run2: \url{http://sg-nex-data.s3.amazonaws.com/data/sequencing_data_ont/fastq/SGNex_MCF7_cDNAStranded_replicate3_run2/SGNex_MCF7_cDNAStranded_replicate3_run2.fastq.gz}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Single cell PBMCs
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PacBio single cell Kinnex based on a 10x 3' library sequenced on Revio
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\url{https://downloads.pacbcloud.com/public/dataset/Kinnex-single-cell-RNA/DATA-Revio-Kinnex-PBMC-10x3p/2-DeduplicatedReads/scisoseq.5p--3p.tagged.refined.corrected.sorted.dedup.bam}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Single nuclei FTD donor sample frontal cortex
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PacBio single nuclei Kinnex based on 10x 3' library
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+dbGaP (TBD)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\end{longtable}

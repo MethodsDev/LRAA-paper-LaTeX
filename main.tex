@@ -1,0 +1,98 @@
+% LRAA manuscript. Converted from the Google Doc (LRAA-2026-draft.docx) on 2026-10-19;
+% the .tex files are now the source of truth. Build: make  (see README.md)
+\documentclass[11pt]{article}
+
+\usepackage{iftex}
+\ifPDFTeX  % pdflatex (Overleaf default)
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+  \usepackage{textcomp}
+\else      % xelatex / lualatex (tectonic, the local build)
+  \usepackage{fontspec}
+\fi
+\usepackage[margin=1in,letterpaper]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{caption}  % \captionof: figure legends run in the text
+\usepackage{longtable,array,calc}
+\usepackage[round,authoryear]{natbib}
+\usepackage{url}
+
+% Optional packages: used when installed (Overleaf has them all); a minimal TeX Live still builds.
+\IfFileExists{xcolor.sty}{\usepackage{xcolor}}{\usepackage{color}}
+\IfFileExists{booktabs.sty}{\usepackage{booktabs}}{%
+  \newcommand{\toprule}{\hline}\newcommand{\midrule}{\hline}\newcommand{\bottomrule}{\hline}}
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{}
+\IfFileExists{parskip.sty}{\usepackage{parskip}}{%
+  \setlength{\parindent}{0pt}\setlength{\parskip}{6pt plus 2pt minus 1pt}}
+\IfFileExists{lineno.sty}{\usepackage{lineno}\linenumbers}{}
+
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+
+\setcounter{secnumdepth}{0}
+\setlength{\emergencystretch}{3em}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Characters in the text that the default fonts lack
+\ifPDFTeX
+  \DeclareUnicodeCharacter{2713}{\ensuremath{\checkmark}}
+  \DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+  \DeclareUnicodeCharacter{2264}{\ensuremath{\leq}}
+  \DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
+  \DeclareUnicodeCharacter{03A9}{\ensuremath{\Omega}}
+  \DeclareUnicodeCharacter{2032}{\ensuremath{'}}
+  \DeclareUnicodeCharacter{00B0}{\ensuremath{^\circ}}
+  \DeclareUnicodeCharacter{00BA}{\textordmasculine}
+  \DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\else
+  \usepackage{newunicodechar}
+  \newunicodechar{✓}{\ensuremath{\checkmark}}
+  \newunicodechar{≥}{\ensuremath{\geq}}
+  \newunicodechar{≤}{\ensuremath{\leq}}
+  \newunicodechar{′}{\ensuremath{'}}
+  \newunicodechar{º}{\textordmasculine}
+  \newunicodechar{μ}{\ensuremath{\mu}}
+\fi
+
+% Figures scale to the text width and 90% of the text height (pandoc's \pandocbounded).
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{%
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{0.9\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi}
+\def\fps@figure{tbp}
+\makeatother
+
+% Editing marks carried over from the Google Doc.
+%   \pending{...}           text that was highlighted (open items)
+%   \doccomment{who}{date}{text}  a reviewer comment; \showcommentsfalse hides them all
+\newif\ifshowcomments \showcommentstrue
+\newcommand{\pending}[1]{\textcolor{orange}{#1}}
+\newcommand{\doccomment}[3]{\ifshowcomments{\footnotesize\textcolor{red}{[#1, #2: #3]}}\fi}
+
+\begin{document}
+
+\input{frontmatter}
+\input{sections/abstract}
+% \input{sections/abstract_short}
+\input{sections/introduction}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/methods}
+\input{sections/backmatter}
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\input{sections/supplement}
+
+\end{document}

@@ -1,0 +1,369 @@
+\section{Introduction}\label{introduction}
+
+Transcriptome sequencing is a foundational biological assay that enables detailed phenotypic characterization by measuring gene expression, RNA splicing, and transcript diversity. This technology provides critical insights into cellular state and function across various tissues and biological contexts, including health, development, and disease \citep{wang2009, stark2019}. Accurate resolution of transcript isoforms is essential for understanding gene regulation and function, as the vast majority of genes undergo alternative splicing, producing multiple RNA isoforms with distinct biological functions \citep{keren2010, nilsen2010}. Additionally, transcriptome profiling also underpins genome annotation, particularly in complex tissues and non-model organisms where reference annotations remain incomplete \citep{haas2002, pertea2018, grabherr2011}.
+
+Historically, transcriptomics has relied on short-read sequencing technologies, which offer high throughput and accurate gene expression quantification but provide only fragmented views of RNA molecules \citep{mortazavi2008}. Reconstruction of full-length transcripts from short reads requires computational assembly or inference, which is inherently ambiguous for genes with complex splicing patterns, alternative transcription start sites, or alternative polyadenylation \citep{garber2011, martin2011}. As a result, accurate resolution of transcript structure has remained a persistent bottleneck, limiting both isoform discovery and reliable quantification \citep{steijger2013, teng2016}.
+
+Long-read sequencing technologies, including platforms from Pacific Biosciences (PacBio) and Oxford Nanopore Technologies (ONT), have fundamentally changed this landscape by enabling sequencing of full-length RNA molecules \citep{tilgner2014, sharon2013}. These approaches allow transcript structures to be observed directly, reducing reliance on computational reconstruction and revealing extensive isoform diversity that is systematically missed by short-read methods. Recent improvements in throughput, accuracy, and cost effectiveness, including high-throughput long-read protocols applicable to bulk, single-cell, and single-nucleus RNA sequencing, have made isoform-resolved transcriptomics broadly accessible across biological and clinical applications \citep{amarasinghe2020, volden2018, alkhafaji2024}.
+
+Despite these advances, computational analysis remains a major limiting factor. Long-read RNA sequencing datasets frequently contain partial or truncated transcripts, heterogeneous error profiles, and extensive ambiguity in read-to-isoform compatibility, particularly for isoforms with shared exons or incomplete coverage \citep{amarasinghe2020, tardaguila2018}. These challenges are compounded in single-cell and single-nucleus settings, where coverage is sparse and transcriptional heterogeneity is high \citep{hardwick2022, gupta2018}. As a result, accurate isoform identification and quantification from long-read data remains an unsolved problem, particularly in contexts where reference annotations are incomplete or biased.
+
+To address these challenges, a diverse ecosystem of computational tools for long-read transcriptome analysis has emerged, reflecting different design priorities and trade-offs \citep{amarasinghe2020}. Several methods emphasize accurate reconstruction of transcript structure from genome-aligned long reads. Tools such as FLAIR \citep{tang2020}, TALON \citep{wyman2019}, Mandalorion \citep{volden2023}, ESPRESSO \citep{gao2023}, and IsoQuant \citep{prjibelski2023} have demonstrated strong performance for isoform identification, often prioritizing precision through conservative modeling, explicit splice junction validation, or robust handling of sequencing errors. These approaches have been instrumental in establishing reliable long-read isoform catalogs, particularly in reference-guided or high-coverage settings \citep{reese2023, workman2018, workman2019, glinos2022}. Other methods have focused on transcript abundance estimation in the presence of ambiguous read-to-isoform compatibility. Probabilistic frameworks based on expectation maximization, including Oarfish \citep{zarejousheghani2025} and Isosceles \citep{kabza2024}, explicitly model uncertainty in read assignment and can achieve accurate quantification when transcript models are known or partially reconstructed. Similarly, Bambu \citep{chen2023} integrates reference-guided transcript discovery with statistical modeling to improve quantification under incomplete annotations. The capabilities and scope of representative long-read isoform analysis methods, including support for bulk, single-cell, and single-nucleus data, are summarized in \textbf{Table 1}. While these methods provide important advances in abundance estimation, they typically assume an externally defined set of isoforms and do not fully integrate de novo isoform discovery and quantification within a single inference framework.
+
+As a result, existing tools tend to excel either at isoform structure reconstruction or at probabilistic abundance estimation, but rarely address both problems simultaneously within a unified framework, particularly in annotation-free settings and in datasets dominated by partial or truncated transcripts. This separation becomes especially limiting for single-cell and single-nucleus long-read transcriptomics, where sparse coverage, heterogeneous transcript boundaries, and extensive read ambiguity further exacerbate the coupling between isoform discovery and quantification.
+
+Rigorous benchmarking of long-read isoform identification and quantification methods is another major challenge, typically involving evaluations using synthetic or genuine sequencing data \citep{su2024, pardopalacios2024b, dong2023}. A recent community-led effort, the Long-read RNA-Seq Genome Annotation Assessment Project (LRGASP), evaluated the accuracy of computational approaches for isoform identification and quantification across a broad range of methods, datasets, and long-read sequencing protocols \citep{pardopalacios2024b}. This study revealed substantial variability in performance across tools, with no single method consistently achieving strong results across all evaluation settings, highlighting both progress in the field and continued room for methodological improvement. Importantly, LRGASP also underscored limitations of existing benchmarking substrates, particularly those relying exclusively on simulated data or on genuine transcriptomes lacking definitive read-level ground truth, motivating the development of additional benchmarking datasets and evaluation strategies.
+
+An ideal benchmark would combine well-defined transcript structures, expression within a cellular context, unambiguous read-level ground truth and the complexity of alternative splicing. However, no commonly used benchmarking strategy satisfies all four criteria. Synthetic spike-in controls, such as SIRVs and Sequins, provide predefined transcript structures and nominal abundance ratios but lack endogenous transcriptional regulation and RNA processing. Moreover, isoform-specific differences in molecule integrity, reverse transcription, amplification, library recovery and sequencing efficiency can shift the observed composition away from the specified input mixture. Consequently, discrepancies between estimated and expected abundances may reflect experimental or sampling variation rather than computational error. Because individual molecules are not isoform-barcoded, the true origin of partial or ambiguous reads also remains unknown. Conversely, benchmarks derived from biological samples preserve native cellular context but lack definitive isoform-level ground truth, often requiring proxy evaluations such as cross-method consensus that cannot establish the complete set of true isoforms present in the sample \citep{steijger2013, pardopalacios2024b}.
+
+Critically, existing benchmarks rarely provide read-level truth assignments for partial or ambiguous reads, despite such reads being pervasive in long-read RNA sequencing datasets. This limitation hinders principled assessment of both isoform reconstruction and quantification accuracy, particularly in complex genes where multiple isoforms share substantial sequence overlap. Together, these considerations underscore the need for benchmarking frameworks that combine biological realism with absolute, read-resolved ground truth.
+
+In this work, we address both methodological and benchmarking gaps. First, we introduce the Long Read Alignment Assembler (LRAA), a unified framework for isoform identification and quantification from long-read RNA sequencing data. LRAA combines splice-graph--based structural modeling with an expectation-maximization optimization framework, enabling probabilistic resolution of ambiguous read assignments while retaining sensitivity to novel isoforms. Second, to support rigorous evaluation under biologically realistic conditions, we introduce a benchmarking strategy based on Multiplexed Overexpression of Regulatory Factors (MORFs) \citep{joung2023}, which yields biologically expressed, barcoded isoforms with unambiguous read-level ground truth.
+
+We apply LRAA across simulated and genuine long-read datasets spanning bulk, single-cell, and single-nucleus transcriptomes, and demonstrate its utility in resolving cell-type-specific isoform usage in peripheral blood immune cells as well as disease-associated cryptic splicing in neuronal cells of a human frontal cortex tissue sample from an individual with frontotemporal dementia (FTD).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1544}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1673}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1673}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1769}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1802}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1539}}@{}}
+\caption{Capabilities of Related Methods for Long Read-based Isoform Identification and Quantification}\label{tab:1}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\centering
+Tools
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Reference-
+
+guided
+
+Identification
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\emph{De novo} Identification
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Expression Quantification
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Single-cell Transcriptome Applications
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Reference
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+LRAA
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+This study
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+IsoSeq
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{isoseqnd}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+IsoQuant
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+**
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{prjibelski2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Bambu
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+**
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{chen2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Mandalorion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{volden2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+StringTie
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{kovaka2019}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+ESPRESSO
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+*
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{gao2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Isosceles
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{kabza2024}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+FLAMES
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓,**
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\pending{\citep{tian2021}}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+FLAIR
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{tang2020}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+TALON
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{wyman2019}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Oarfish
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{zarejousheghani2025}
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\centering
+Tools
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Reference-
+
+guided
+
+Identification
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\emph{De novo} Identification
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Expression Quantification
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Single-cell Transcriptome Applications
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Reference
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+LRAA
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+This study
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+IsoSeq
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{isoseqnd}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+IsoQuant
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+**
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{prjibelski2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Bambu
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+**
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{chen2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Mandalorion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{volden2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+StringTie
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{kovaka2019}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+ESPRESSO
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+*
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{gao2023}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Isosceles
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{kabza2024}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+FLAMES
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓,**
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\pending{\citep{tian2021}}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+FLAIR
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{tang2020}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+TALON
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{wyman2019}
+\end{minipage} \\
+\begin{minipage}[b]{\linewidth}\centering
+Oarfish
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+✓
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+\citep{zarejousheghani2025}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\end{longtable}
+
+* read to isoform assignments can allow for cell barcode identification
+
+**recently developed Bambu-Clump \citep{sim2025}, Flames-v2 \citep{wang2025}, and Spl-IsoQuant-2 \citep{michielsen2025} support single-cell and/or spatial long-read transcriptomics and were not evaluated here.
