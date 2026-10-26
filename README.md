@@ -60,23 +60,25 @@ switches on the engine, so the same `main.tex` builds with pdfLaTeX + BibTeX on 
 
 ## Figures
 
-All figures are still the images from the Google Doc. Replacing them with the figures the analysis
-repo builds (current LRAA version) is a separate step. The paths are in the analysis repo:
+`figures/benchmark/` holds the benchmark figures the analysis repo builds, copied in so Overleaf
+can see them. They are on LRAA v0.45.0-f8db47e (copied 2026-10-26). To refresh them, rebuild
+`<analysis repo>/__PaperFigs/benchmark_figs/` and run `make sync-figs` here. The other figures are
+still the Google Doc images in `figures/docx_export/`.
 
-| figure | now | built in the analysis repo |
+| figure | in the paper | built in the analysis repo |
 |---|---|---|
-| Fig 1 (LRAA overview) | `Fig1.png` | no (schematic) |
-| Fig 2 (sims, SIRVs, MORFs) | `Fig2.png` | `__PaperFigs/benchmark_figs/Fig2_benchmarks_sims_SIRVs_MORFs.pdf` |
-| Fig 3 (cell lines) | `Fig3.png` | `__PaperFigs/benchmark_figs/Fig3_benchmarks_cell_lines.pdf` |
-| Fig 4 (sc pipeline) | `Fig4.png` | no (schematic) |
-| Fig 5 (PBMC) | `Fig5.png` | panels only: `PBMCs_kinnex/LRAA_PBMCs_eval/__Paper_Figures/` (AIF1, SELENOH; the doc shows AIF1 and EMP3) |
-| Fig 6 (FTD/ALS) | `Fig6.png` | panels only: `ALS_LP00714/ALS_LRAA_eval/__Paper_Figures/` (STMN2, ATP5MJ; the doc shows STMN2 and EIF1) |
-| Supp Fig 1 (algorithm) | `SuppFig1.png` | no (schematic) |
-| Supp Fig 2 (sim error rates) | `SuppFig2.png` | `__PaperFigs/benchmark_figs/SuppFig2_benchmarks_sim_error_rates.pdf` |
-| Supp Fig 3 (SIRV E0/E2) | `SuppFig3.png` | `__PaperFigs/benchmark_figs/SuppFig3_benchmarks_SIRVs_E0_E2.pdf` |
-| Supp Fig 4 (MORFs) | `SuppFig4.png` | panel b only: `__PaperFigs/benchmark_figs/SuppFig4b_benchmarks_MORFs_ONT.pdf` |
-| Supp Fig 5 (SQANTI-like scheme) | `SuppFig5.png` | no (schematic) |
-| Supp Fig 6, 7 (proteoforms) | `SuppFig6.jpg`, `SuppFig7.jpg` | no |
+| Fig 1 (LRAA overview) | `docx_export/Fig1.png` | no (schematic) |
+| Fig 2 (sims, SIRVs, MORFs) | `benchmark/Fig2_benchmarks_sims_SIRVs_MORFs.pdf` | `__PaperFigs/benchmark_figs/` |
+| Fig 3 (cell lines) | `benchmark/Fig3_benchmarks_cell_lines.pdf` | `__PaperFigs/benchmark_figs/` |
+| Fig 4 (sc pipeline) | `docx_export/Fig4.png` | no (schematic) |
+| Fig 5 (PBMC) | `docx_export/Fig5.png` (doc) | panels only: `PBMCs_kinnex/LRAA_PBMCs_eval/__Paper_Figures/` (AIF1, SELENOH; the doc shows AIF1 and EMP3) |
+| Fig 6 (FTD/ALS) | `docx_export/Fig6.png` (doc) | panels only: `ALS_LP00714/ALS_LRAA_eval/__Paper_Figures/` (STMN2, ATP5MJ; the doc shows STMN2 and EIF1) |
+| Supp Fig 1 (algorithm) | `docx_export/SuppFig1.png` | no (schematic) |
+| Supp Fig 2 (sim error rates) | `benchmark/SuppFig2_benchmarks_sim_error_rates.pdf` | `__PaperFigs/benchmark_figs/` |
+| Supp Fig 3 (SIRV E0/E2) | `benchmark/SuppFig3_benchmarks_SIRVs_E0_E2.pdf` | `__PaperFigs/benchmark_figs/` |
+| Supp Fig 4 (MORFs) | a: `docx_export/SuppFig4a.png` (the doc image, cropped); b: `benchmark/SuppFig4b_benchmarks_MORFs_ONT.pdf` | panel b only |
+| Supp Fig 5 (SQANTI-like scheme) | `docx_export/SuppFig5.png` | no (schematic) |
+| Supp Fig 6, 7 (proteoforms) | `docx_export/SuppFig6.jpg`, `SuppFig7.jpg` (doc) | no |
 
 ## The conversion (`tools/`)
 
