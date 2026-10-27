@@ -50,11 +50,11 @@ switches on the engine, so the same `main.tex` builds with pdfLaTeX + BibTeX on 
 - Figure legends are `\captionof{figure}{...}` right after the image, in the text flow rather than
   in a float, because most legends are too long to share a page with their figure.
 - Open items carried over from the Google Doc:
-  - `\pending{...}`: text that was highlighted in the doc, shown in orange. There are 8: two
-    author names (Bartlett, Brookhart), the FLAMES citation twice (Table 1 and its footnote), the
-    union-find sentence in Methods, and three `°` signs in the MORF methods, which look like
-    stray highlights. The highlight on the FTD data-generation heading covered no text and was
-    dropped.
+  - `\pending{...}`: text that was highlighted in the doc, shown in orange. One remains: the
+    union-find sentence in Methods (yellow in the doc). The conversion also marked seven runs with
+    a white highlight, invisible in the doc (two author names, the FLAMES citation twice, three
+    `°` signs); those marks were removed on 2026-10-27. The highlight on the FTD data-generation
+    heading covered no text and was dropped.
   - `\doccomment{who}{date}{text}`: the doc's 15 comments (14 from Houlin, 1 reply from Brian), where they were anchored. Shown
     in red; `\showcommentsfalse` in `main.tex` hides them all. Delete each one once it is resolved.
 
