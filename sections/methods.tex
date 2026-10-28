@@ -253,8 +253,8 @@ Differential usage between cell clusters was tested with DEXSeq \citep{anders201
 
 At each level, the cells of each cluster were dealt at random into three pseudo-replicates and their counts summed per feature (splice pattern or site), with features standing in for DEXSeq's exon bins and genes for its groups. For each feature $i$, DEXSeq models the counts $K_{ijl}$ in pseudo-replicate $j$ as negative binomial with mean $s_j \mu_{ijl}$ and a dispersion fitted per feature, where $l$ indicates the feature itself or the rest of its group (DEXSeq's ``this'' and ``others'' bins) and $s_j$ is a size factor. Over all clusters with at least 30 cells, a likelihood-ratio test compared two models, written in DEXSeq's design formulas as
 \begin{align*}
-\text{full:}\quad & {\sim}\ \text{sample} + \text{exon} + \text{cluster}{:}\text{exon},\\
-\text{reduced:}\quad & {\sim}\ \text{sample} + \text{exon},
+\text{full:}\quad & \text{count} \sim \text{sample} + \text{exon} + \text{cluster}{:}\text{exon},\\
+\text{reduced:}\quad & \text{count} \sim \text{sample} + \text{exon},
 \end{align*}
 fitted once per feature, with the sample a pseudo-replicate and the exon a two-level indicator for the feature against the rest of its group (DEXSeq's ``this'' and ``others'' bins). In terms of the features tested, this reads
 \begin{align*}
