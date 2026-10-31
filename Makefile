@@ -18,7 +18,7 @@ BMARK_SRC ?= ../__PaperFigs/benchmark_figs
 # assembled main figures (__PaperFigs/main_figs/: make there first)
 MAIN_FIGS := Fig5 Fig6
 MAIN_SRC ?= ../__PaperFigs/main_figs
-SUPP_FIGS := SuppFig_categories
+SUPP_FIGS := SuppFig_categories SuppFig_ISM_internal_TSS
 SUPP_SRC ?= ../__PaperFigs/supp_figs
 PROT_FIGS := SuppFig_proteoforms_PBMC SuppFig_proteoforms_FTD
 PROT_SRC ?= ../LRAA_proteoform_analyses
