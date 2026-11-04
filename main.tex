@@ -80,6 +80,9 @@
 % \tofix{text}{note}: text made out of date by the 2026-10 figure rework (magenta), with what changed;
 %   also hidden by \showcommentsfalse. Remove the mark once the text is updated.
 \newcommand{\tofix}[2]{\ifshowcomments\textcolor{magenta}{#1}{\footnotesize\textcolor{magenta}{[\textbf{to fix:} #2]}}\else #1\fi}
+% \reviewnote{note}: a change for the author to review (blue); also hidden by \showcommentsfalse.
+%   Delete the mark once reviewed.
+\newcommand{\reviewnote}[1]{\ifshowcomments{\footnotesize\textcolor{blue}{[\textbf{review:} #1]}}\fi}
 
 \begin{document}
 
