@@ -34,6 +34,10 @@
 \urlstyle{same}
 
 \setcounter{secnumdepth}{0}
+% paragraph-level headings on their own line (article's default runs them into the first sentence)
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}{3.25ex \@plus1ex \@minus.2ex}{0.75ex}{\normalfont\normalsize\bfseries}}
+\makeatother
 \setlength{\emergencystretch}{3em}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 

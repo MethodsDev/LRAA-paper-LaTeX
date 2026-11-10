@@ -345,7 +345,7 @@ The resulting nuclei were processed using the 10x Genomics Chromium Next GEM Sin
 
 The library was sequenced across four PacBio flowcells and processed with the Kinnex single-cell workflow following PacBio\textquotesingle s recommended Iso-Seq processing guidelines. Raw HiFi reads from each flowcell were de-concatenated with skera to generate segmented reads (S-reads), with a consistently high proportion of full-length arrays across all flowcells (95.3--96.1\%). Primers were removed with lima, cell barcodes and UMIs were clipped from the reads and stored as BAM tags with isoseq tag, and poly(A) tails and residual artificial concatemers were removed with isoseq refine to yield full-length non-concatemer (FLNC) reads. FLNC reads from the four flowcells were merged, cell barcodes were corrected against the 10x barcode whitelist with isoseq correct, and PCR duplicates with shared cell barcodes and UMIs were deduplicated with isoseq groupdedup. The deduplicated reads were then aligned to the reference genome and used as input to LRAA, with corrected cell barcodes (CB) and UMIs (XM) persisting as BAM tags.
 
-\textbf{Benchmarking Isoform Identification and Quantification}
+\subsection{Benchmarking Isoform Identification and Quantification}\label{benchmarking-isoform-identification-and-quantification}
 
 Benchmarking methods and related code were adapted from that used for the Isosceles paper \citep{kabza2024} (\url{https://github.com/Genentech/Isosceles}). As such, benchmarking is restricted to spliced isoforms where isoforms are uniquely identified according to their patterns of spliced introns. If multiple isoforms have shared splice patterns but differ at termini boundaries (alternative TSS or TES), they are collapsed into single representative isoforms and associated expression values or read counts are aggregated.
 
@@ -372,7 +372,7 @@ When an exact truth set is not available, a proxy truth set is defined as the se
 
 The benchmarking framework implemented here is available on GitHub at \url{https://github.com/MethodsDev/LRAA_Isoform_ID_n_Quant_Bmark_Platform} with all evaluated methods' predicted isoform structures and quantifications available at Zenodo (\url{https://zenodo.org/records/20719930}).
 
-\textbf{LRAA SQANTI-like read alignment and isoform structure annotation comparison}
+\subsection{LRAA SQANTI-like read alignment and isoform structure annotation comparison}\label{lraa-sqanti-like-read-alignment-and-isoform-structure-annotation-comparison}
 
 We incorporated a SQANTI \citep{pardopalacios2024} -like reference annotation comparison utility into the LRAA software suite to facilitate annotation of read alignments (bam) or isoform structures (GTF), considered `input features', in comparison to a reference annotation. This SQANTI-like annotation utility was designed to be a flexible light-weight and efficient system for assigning input features to annotation categories based on references annotation splice pattern matching and genomic feature localization. Annotation categories are assigned separately for spliced and unspliced input features (\textbf{Supplementary Figure~\ref{sfig:5}}).
 
