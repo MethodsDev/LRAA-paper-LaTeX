@@ -235,7 +235,7 @@ Per-cluster GTF files are merged into a unified consensus annotation using a spe
 
 \subsubsection{Final quantification and single-cell matrix generation}\label{final-quantification-and-single-cell-matrix-generation}
 
-After generating the consensus GTF, each cluster of cells is re-quantified against the merged isoform catalog while leveraging an identical splice graph to produce final abundance estimates. This ensures that all cells are quantified using the same unified isoform catalog. Per-cluster read-to-isoform tracking files are merged into a single comprehensive tracking file spanning all cells and clusters, which serves as input for final sparse matrix construction. The workflow then yields separate sparse feature-by-cell count matrices at gene-, isoform-, and splice pattern-level resolution.
+After generating the consensus GTF, the reads of all cells, including cells not assigned to any cluster, are quantified together against the merged isoform catalog in a single quantification, whose expectation-maximization estimates one set of isoform proportions for all cells. All cells are thus quantified against the same unified isoform catalog under the same model, so that differences between clusters in the resulting counts come from their reads rather than from proportions estimated separately for each cluster. The resulting read-to-isoform tracking file, in which each read keeps its cell barcode, serves as input for final sparse matrix construction. The workflow then yields separate sparse feature-by-cell count matrices at gene-, isoform-, and splice pattern-level resolution.
 
 \subsubsection{Reference annotation gene symbol integration}\label{reference-annotation-gene-symbol-integration}
 

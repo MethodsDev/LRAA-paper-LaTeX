@@ -1,0 +1,51 @@
+% Figure 4: the LRAA single-cell pipeline (TikZ; \input by sections/results.tex, needs \usepackage{tikz}).
+% Redrawn 2026-11-14 from the earlier exported image; the final quantification is now one pooled
+% quantification of all cells against the merged isoforms (LRAA v0.51.0), no longer one per cluster.
+\begingroup
+\definecolor{figfourline}{HTML}{3C4048}
+\definecolor{figfourpanel}{HTML}{F4CAA0}
+\definecolor{figfourframe}{HTML}{9A9A9A}
+\noindent\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    font=\sffamily,
+    box/.style={draw=figfourline, line width=1.1pt, rounded corners=3pt, fill=white,
+                align=center, inner sep=4pt, minimum height=1.25cm},
+    hl/.style={box, fill=figfourpanel, draw=figfourframe, line width=1.4pt, font=\sffamily\bfseries},
+    arr/.style={-{Stealth[length=7pt,width=6pt]}, draw=figfourline, line width=1.1pt},
+  ]
+  % ---- overview (left)
+  \node[box, minimum width=3.6cm] (L1) at (2.8,13.4) {Cell Barcoded\\Aligned Long Reads};
+  \node[box, minimum width=4.8cm] (L2) at (2.8,11.0) {LRAA Isoform ID and Quant\\as Single Pseudobulk};
+  \node[box, minimum width=2.9cm] (L3) at (2.8,8.6)  {Cell Expression\\Matrices};
+  \node[box, minimum width=2.4cm] (L4) at (2.8,6.3)  {Cell Clusters\\Defined};
+  \node[hl,  minimum width=4.0cm, minimum height=1.8cm] (L5) at (2.8,3.9) {LRAA\\Cell Clusters-Guided\\Isoform ID and Quant};
+  \node[box, minimum width=5.9cm, minimum height=1.8cm, font=\sffamily\bfseries] (L6) at (2.8,1.3)
+       {[Optional] Reference\\gene symbol annotation for\\Isoforms and Expression Matrices};
+  \foreach \a/\b in {L1/L2, L2/L3, L3/L4, L4/L5, L5/L6} \draw[arr] (\a) -- (\b);
+
+  % ---- expanded cluster-guided phase (right)
+  \fill[figfourpanel, draw=figfourframe, line width=1.4pt] (8.4,0.2) rectangle (19.2,14.4);
+  \draw[line width=1.1pt] (L5.north east) -- (8.4,14.4);
+  \draw[line width=1.1pt] (L5.south east) -- (8.4,0.2);
+
+  \node[box, minimum width=3.6cm] (R1) at (12.2,13.2) {Cell Barcoded\\Aligned Long Reads};
+  \node[box, minimum width=2.4cm] (R2) at (16.0,13.2) {Cell Cluster\\Definitions};
+  \node[box, minimum width=6.4cm] (P)  at (13.8,10.9) {Partition Reads by Cell Cluster};
+  \draw[arr] (R1.south) |- ++(0,-0.6) -| ([xshift=-0.9cm]P.north);
+  \draw[arr] (R2.south) |- ++(0,-0.6) -| ([xshift=0.9cm]P.north);
+
+  \node[box, minimum width=6.4cm] (M) at (13.8,5.2) {LRAA Merge -- Consolidate Isoform Structures};
+  \foreach \x/\c [count=\i] in {9.9/Cluster A, 12.5/Cluster B, 15.1/Cluster C, 17.7/\dots\ Cluster Z} {
+    \node[box, minimum width=2.3cm, minimum height=1.7cm] (C\i) at (\x,8.3)
+         {LRAA\\Isoform ID\\\c};
+  }
+  \foreach \i/\dx in {1/-2.4, 2/-0.8, 3/0.8, 4/2.4} {
+    \draw[arr] ([xshift=\dx cm]P.south) -- ++(0,-0.55) -| (C\i.north);
+    \draw[arr] (C\i.south) -- ++(0,-0.55) -| ([xshift=\dx cm]M.north);
+  }
+  \node[box, minimum width=6.4cm] (Q) at (13.8,3.15) {LRAA Isoform Quant-only, All Cells Together};
+  \node[box, minimum width=7.6cm] (O) at (13.8,1.1)  {Isoform Structures and Cell Expression Matrices};
+  \draw[arr] (M) -- (Q);
+  \draw[arr] (Q) -- (O);
+\end{tikzpicture}}
+\endgroup
