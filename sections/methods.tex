@@ -135,7 +135,7 @@ Reads compatible with multiple isoforms are weighted according to agreement betw
 
 \[w_{ri} \propto 1 - \frac{d_{ri} + c}{\left(\sum_{j \in C_r} d_{rj}\right) + |C_r|c}.\]
 
-and then normalizes these weights across the isoforms in \(C_r\). This preserves preferential assignment to isoforms whose 3′ termini lie closer to the observed read end, while reducing overconfidence among nearby alternative PolyA sites.
+and then normalizes these weights across the isoforms in \(C_r\). This preserves preferential assignment to isoforms whose 3′ termini lie closer to the observed read end, while reducing overconfidence among nearby alternative PolyA sites. The weighting is applied by default and can be disabled (\texttt{-{}-no\_weight\_reads\_by\_3prime\_agreement}) for libraries whose reads often do not reach the polyA tail, such as 10x Genomics 5′ libraries, where reads begin at the transcript 5′ end.
 
 Let \(\mathbf{p} = (p_1, \ldots, p_K)\) be the isoform proportions for gene \(g\) (where \(\sum_{i=1}^K p_i = 1\)), and let \(R_g\) be the set of read compatibility classes (RCCs) assigned to gene \(g\). Each RCC \(r \in R_g\) corresponds to a unique labeled read path and aggregates \(n_r\) individual reads sharing that structure and assigned to the corresponding RCC. The likelihood of observing RCC \(r\) is:
 
