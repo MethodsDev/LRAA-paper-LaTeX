@@ -6,11 +6,11 @@ We developed LongReadAlignmentAssembler (LRAA) as a method for transcript isofor
 
 LRAA has three primary execution modes: (1) annotation-free isoform discovery and quantification, requiring only aligned reads and a reference genome; (2) reference annotation-guided isoform discovery and quantification, where known gene models inform splice-graph construction and filtering; and (3) quantification-only mode, where isoform discovery is bypassed and reads are directly assigned to reference isoforms for abundance estimation via EM.
 
-LRAA supports PacBio HiFi and ONT data through two platform-adapted execution modes. HiFi mode (-\/-HiFi) applies stringent filtering parameters suited to the high base accuracy of PacBio HiFi reads (\textgreater99\%) and enables precise inference of transcription start sites (TSS) and polyadenylation (PolyA) sites from read termini. The default mode uses relaxed filtering thresholds to accommodate the higher sequencing error rates of ONT reads. Unless otherwise noted, the parameter values and algorithmic decisions described below correspond to HiFi mode, and most thresholds are user-configurable.
+LRAA supports PacBio HiFi and ONT data through two platform-adapted execution modes. HiFi mode (-\/-HiFi) applies stringent filtering parameters suited to the high base accuracy of PacBio HiFi reads and enables precise inference of transcription start sites (TSS) and polyadenylation (PolyA) sites from read termini. The default mode uses relaxed filtering thresholds to accommodate higher sequencing error rates. Unless otherwise noted, the parameter values and algorithmic decisions described below correspond to HiFi mode, and most thresholds are user-configurable.
 
 \subsection{Input and preprocessing}\label{input-and-preprocessing}
 
-LRAA requires coordinate-sorted BAM files of long RNA-seq reads aligned to a reference genome (typically via minimap2), along with the reference genome in FASTA format. Reference gene annotations in GTF format are required for quantification-only mode or reference annotation-guided isoform discovery. Annotation-free isoform identification and quantification requires only the input alignment BAM and reference genome files.
+LRAA requires coordinate-sorted BAM files of long RNA-seq reads aligned to a reference genome (typically via minimap2), along with the reference genome in FASTA format. Reference gene annotations in GTF format are required for quantification-only mode or reference annotation-guided isoform discovery. Annotation-free isoform identification and quantification requires only the input alignment BAM and reference genome.
 
 \subsubsection{Filtering of alignments}\label{filtering-of-alignments}
 
