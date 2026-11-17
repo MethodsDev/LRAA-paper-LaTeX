@@ -6,15 +6,20 @@
 % panels are scaled down (never up) to fit the space left on the page.
 \makeatletter
 \newsavebox\suppfig@cap\newsavebox\suppfig@body\newdimen\suppfig@room
+% the caption is set inside a box, where its figure number is local: carry it out so a \label after the
+% macro gets this figure's number, not the last main figure's
+\newcommand\suppfig@caption[1]{\captionof{figure}{#1}%
+  \global\let\suppfig@lbl\@currentlabel\ifdefined\@currentHref\global\let\suppfig@href\@currentHref\fi}
+\newcommand\suppfig@setlabel{\let\@currentlabel\suppfig@lbl\ifdefined\@currentHref\let\@currentHref\suppfig@href\fi}
 \newcommand\suppfig[2]{%
-  \par\sbox\suppfig@cap{\parbox{\linewidth}{\captionof{figure}{#2}}}%
+  \par\sbox\suppfig@cap{\parbox{\linewidth}{\suppfig@caption{#2}}}%
   \sbox\suppfig@body{\parbox{\linewidth}{\centering #1}}%
   \suppfig@room=\ifdim\pagegoal=\maxdimen\textheight\else\pagegoal\fi
   \advance\suppfig@room-\pagetotal \advance\suppfig@room-\ht\suppfig@cap \advance\suppfig@room-\dp\suppfig@cap
   \advance\suppfig@room-3\baselineskip
   \Gscale@div\@tempa{\suppfig@room}{\dimexpr\ht\suppfig@body+\dp\suppfig@body\relax}%
   \begin{center}\ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\suppfig@body}\else\usebox\suppfig@body\fi\end{center}
-  \noindent\usebox\suppfig@cap\par}
+  \noindent\usebox\suppfig@cap\par\suppfig@setlabel}
 % \suppfigsplit: for a figure with a long legend, the panels fill a page and the legend follows on the next
 \newcommand\suppfigsplit[2]{%
   \par\sbox\suppfig@body{\parbox{\linewidth}{\centering #1}}%
@@ -23,7 +28,7 @@
   \Gscale@div\@tempa{\suppfig@room}{\dimexpr\ht\suppfig@body+\dp\suppfig@body\relax}%
   \begin{center}\ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\suppfig@body}\else\usebox\suppfig@body\fi\end{center}
   \clearpage
-  \noindent\parbox{\linewidth}{\captionof{figure}{#2}}\par}
+  \noindent\parbox{\linewidth}{\suppfig@caption{#2}}\par\suppfig@setlabel}
 \makeatother
 
 \suppfig{%
@@ -88,6 +93,10 @@
 \clearpage
 \section*{Supplementary Tables}
 
-\noindent\textbf{Supplementary Table 1.} High-confidence differential isoform usage events between cell clusters in the PBMC and FTD frontal cortex datasets (DEXSeq on pseudo-replicates; \textbf{Methods}), one sheet per dataset and level: splice patterns, and TSS and PolyA sites tested on read ends, with each site switch's splicing class (tandem or coupled with alternative splicing) and the LRAA isoforms carrying its two sites. The FTD TSS switches are listed with a caveat: some may be 5\textquotesingle{} truncation products (\textbf{Results}). Each row is a gene and pair of clusters, with the gained and lost features, their usage, read counts and unique full-length reads in each cluster, the pairwise adjusted P values, and the switch class. A README sheet defines the columns, and a Summary sheet gives the number of genes tested, significant, with events and with high-confidence events at each level.
+\noindent\textbf{Supplementary Table 1.} High-confidence differential isoform usage events between cell clusters in the PBMC and FTD frontal cortex datasets (DEXSeq on pseudo-replicates; \textbf{Methods}), one sheet per dataset and level: splice patterns, and TSS and PolyA sites tested on read ends, with each site switch's splicing class (tandem or coupled with alternative splicing) and the LRAA isoforms carrying its two sites. The FTD TSS switches are listed with a caveat: some may be 5\textquotesingle{} truncation products (\textbf{Results}). Each row is a gene and pair of clusters, with the gained and lost features, their usage, read counts and unique full-length reads in each cluster, the pairwise adjusted P values, and the switch class. A README sheet defines the columns, a Summary sheet gives the number of genes tested, significant, with events and with high-confidence events at each level, and a Clusters sheet gives each cluster's cell type and number of cells.
 
 \noindent\textbf{Supplementary Table 2.} Internal TSSs of strict ISM isoforms that imply an N-terminally truncated protein (\textbf{Methods}), one row per library and site: the reads at the site and their capped share, distances to CAGE and refTSS peaks, the longer and shorter isoforms by splice hash, the protein lengths and the Kozak context of the downstream start.
+
+\noindent\textbf{Supplementary Table 3.} Benchmark accuracy of isoform identification and quantification: the values plotted in \textbf{Figures~\ref{fig:2}--\ref{fig:3}} and \textbf{Supplementary Figures~\ref{sfig:2}--\ref{sfig:4}}. Identification sheet: F1, precision and recall of each tool in each benchmark panel, reference-guided and de novo, with its F1 rank; Quantification sheet: mean relative difference (MRD) against the expression truth, with its rank; Expression\_correlation sheet: Pearson correlation between tools' expression estimates for the cell lines (\textbf{Figure~\ref{fig:3}}); Per\_sample sheet: the values of each sample the plotted means average over (the four libraries of each SIRV mix). A README sheet defines the metrics and columns.
+
+\noindent\textbf{Supplementary Table 4.} Sequencing libraries of the benchmarks and the single-cell studies: platform, reads, aligned reads (primary alignments) and the quartiles, mean and maximum of the aligned read lengths.
