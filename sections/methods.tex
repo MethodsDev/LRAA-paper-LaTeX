@@ -183,7 +183,7 @@ LRAA-singlecell is implemented as a Workflow Description Language (WDL) workflow
 
 \subsection{Input and preprocessing}\label{input-and-preprocessing-1}
 
-LRAA-singlecell requires coordinate-sorted BAM files of long-read single-cell RNA-seq data aligned to a reference genome, the reference genome in FASTA format, and cell barcode annotations embedded in BAM read tags. Cell barcodes are read from a configurable BAM tag (default: CB, following the 10x Genomics convention), and unique molecular identifiers (UMIs) are read from a separate tag (default: XM). A read lacking either tag keeps its plain read name, which the matrix builders treat as its own single-read barcode.
+LRAA-singlecell requires coordinate-sorted BAM files of long-read single-cell RNA-seq data aligned to a reference genome, the reference genome in FASTA format, and cell barcode annotations embedded in BAM read tags. Cell barcodes are read from a configurable BAM tag (default: CB, following the 10x Genomics convention), and unique molecular identifiers (UMIs) are read from a separate tag (default: XM).
 
 Cluster-guided mode uses cell cluster assignments, either produced by the basic-mode steps within the workflow or supplied as a tab-separated file mapping cell barcodes to cluster identifiers from external clustering analyses. Reference gene annotations in GTF format are optional for discovery modes but required for quantification-only operation.
 
