@@ -206,13 +206,9 @@ Cell clustering results are exported as a tab-separated assignment file mapping 
 
 \subsection{LRAA cell cluster-guided mode workflow}\label{lraa-cell-cluster-guided-mode-workflow}
 
-\subsubsection{BAM partitioning by cell cluster}\label{bam-partitioning-by-cell-cluster}
-
-Following cell clustering, either from basic mode or from provided precomputed assignments, the input BAM file is partitioned by cell cluster identity. Each read is examined for its cell barcode tag (default: CB) and matched against cluster assignments. Reads are written to cluster-specific BAM files (one per cluster). Reads from barcodes not present in the cluster assignments are excluded. This partitioning produces a set of pseudobulk BAM files, each containing all reads from cells belonging to a specific cluster. The partitioned BAM files are packaged into a compressed tarball for convenient retrieval and archival.
-
 \subsubsection{Per-cluster isoform discovery}\label{per-cluster-isoform-discovery}
 
-Each cluster-specific BAM is processed independently through the complete LRAA isoform discovery pipeline. The initial GTF (from basic mode, or supplied by the user) serves as the annotation for reference-guided LRAA isoform identification in each cluster-specific BAM. Only the initial isoforms that the pseudobulk run marked as matching a reference transcript are treated as reference isoforms in the cluster runs, using the full-chain read counts of the pooled data; the other initial isoforms are novel there and must meet the novel-isoform read requirements within each cluster. Each cluster run counts supporting cells only among that cluster's barcodes.
+Following cell clustering, either from basic mode or from provided cluster assignments, the reads are partitioned by cell cluster according to their cell barcodes, giving one pseudobulk read set per cluster; reads from barcodes not assigned to a cluster are left out of per-cluster discovery. Each cluster's reads are processed independently through the complete LRAA isoform discovery pipeline. The initial GTF (from basic mode, or supplied by the user) serves as the annotation for reference-guided LRAA isoform identification in each cluster-specific BAM. Only the initial isoforms that the pseudobulk run marked as matching a reference transcript are treated as reference isoforms in the cluster runs, using the full-chain read counts of the pooled data; the other initial isoforms are novel there and must meet the novel-isoform read requirements within each cluster. Each cluster run counts supporting cells only among that cluster's barcodes.
 
 \subsubsection{Cell cluster GTF merging for a consensus isoform catalog}\label{cell-cluster-gtf-merging-for-a-consensus-isoform-catalog}
 
