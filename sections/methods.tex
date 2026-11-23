@@ -122,11 +122,11 @@ Reads compatible with multiple isoforms are weighted according to agreement betw
 
 and then normalizes these weights across the isoforms in \(C_r\). This preserves preferential assignment to isoforms whose 3\p{} termini lie closer to the observed read end, while reducing overconfidence among nearby alternative PolyA sites.
 
-Let \(\mathbf{p} = (p_1, \ldots, p_K)\) be the isoform proportions within a quantification unit (where \(\sum_{i=1}^K p_i = 1\)), and let \(R\) be the set of read compatibility classes (RCCs) assigned to it. A unit is a gene, or a set of genes that share at least one compatible read, such as a read-through model and the genes it spans, so reads compatible with isoforms of several genes are divided by a single EM. Each RCC \(r \in R\) corresponds to a unique labeled read path and aggregates \(n_r\) individual reads sharing that structure and assigned to the corresponding RCC. The likelihood of observing RCC \(r\) is:
+Let \(\mathbf{p} = (p_1, \ldots, p_K)\) be the isoform proportions within a quantification unit (where \(\sum_{i=1}^K p_i = 1\)), and let \(R\) be the set of read compatibility classes (RCCs) assigned to it. A unit is a gene, or a set of genes that share at least one compatible read, such as a read-through model and the genes it spans, so reads compatible with isoforms of several genes are divided by a single EM. Each RCC \(r \in R\) corresponds to a unique labeled read path and aggregates \(n_r\) individual reads sharing that structure and assigned to the corresponding RCC. The likelihood of observing RCC \(r\) depends on the relative expression of its compatible isoforms and on its consistency with their 3\p{} ends:
 
 \[P(r \mid \mathbf{p}) = \sum_{i: C_{ri}=1} p_i \cdot w_{ri}\]
 
-where \(C_{ri} \in \{0,1\}\) indicates compatibility between RCC \(r\) and isoform \(i\).
+where \(C_{ri} \in \{0,1\}\) indicates compatibility between RCC \(r\) and isoform \(i\), and \(w_{ri}\) is the 3\p{}-agreement weight defined above.
 
 In the \textbf{expectation step}, posterior probabilities (i.e. fractions of each RCC assigned to each compatible isoform) are computed per RCC:
 
