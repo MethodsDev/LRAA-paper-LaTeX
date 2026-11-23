@@ -216,7 +216,7 @@ The per-cluster GTFs and the initial pseudobulk GTF are merged into one isoform 
 
 \subsubsection{Final quantification and single-cell matrix generation}\label{final-quantification-and-single-cell-matrix-generation}
 
-After generating the consensus GTF, the reads of all cells, including cells not assigned to any cluster, are quantified together against the merged isoform catalog in a single quantification, whose expectation-maximization estimates one set of isoform proportions for all cells. All cells are thus quantified against the same unified isoform catalog under the same model. The resulting read-to-isoform tracking file, in which each read keeps its cell barcode, serves as input for final sparse matrix construction. The workflow then yields separate sparse feature-by-cell count matrices at gene-, isoform-, and splice pattern-level resolution, which include barcodes outside the cluster assignments. Per-cluster pseudobulk expression is obtained by summing the read assignments of each cluster's cells, and the reads assigned to each cluster and to unclustered barcodes are reported.
+After the merge, all input reads are quantified together against the merged isoform catalog in a single quantification, so that one expectation-maximization estimates a single set of isoform proportions for all cells. As in basic mode, the read-to-isoform assignments, each carrying its cell barcode, are summed into gene-, isoform-, and splice-pattern-by-cell count matrices, and per-cluster pseudobulk expression is obtained by summing the assignments of each cluster's cells.
 
 \subsubsection{Reference annotation gene symbol integration}\label{reference-annotation-gene-symbol-integration}
 
