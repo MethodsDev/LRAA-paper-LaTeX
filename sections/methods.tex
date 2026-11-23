@@ -94,40 +94,21 @@ During construction of labeled read paths, LRAA applies a constrained terminal-b
 
 Each labeled read path is compared against the labeled paths of candidate isoforms, defined as the isoforms of any gene sharing at least one splice-graph node with the read path. Assignment proceeds through a cascading hierarchy of stringency levels, attempting the most stringent criteria first and progressively relaxing constraints until a compatible isoform is identified.
 
-The assignment cascade has two phases, and both are applied to all data regardless of sequencing platform. Phase 1 retains TSS and PolyA nodes during compatibility testing. In steps 1--4, a terminal-boundary node present on the read must also be present and identical on the isoform, whereas an isoform boundary may be absent from the read, and step 1 additionally requires complete path identity. Step 5 disables this explicit anchoring requirement but retains boundary nodes in both paths. A read not assigned in Phase 1 moves to Phase 2, which trims boundary nodes from both paths, so that a read whose TSS or PolyA node conflicts with those of every candidate isoform can still be assigned by its splice structure. Within each phase, multiple compatibility tests are applied in order of decreasing stringency.
-
-\subsubsection{Phase 1: Boundary-aware assignment (TSS/PolyA nodes retained)}\label{phase-1-boundary-aware-assignment}
+LRAA uses four compatibility tests, listed from most to least stringent. Two of them use the read overlap, the fraction of the read path's exonic length that lies in splice-graph nodes shared with the isoform.
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
+\def\labelenumi{(\roman{enumi})}
 \item
-  \textbf{Exact match with boundary anchoring:} The read and isoform paths must match end-to-end, including terminal TSS or PolyA nodes where they exist.
+  \textbf{Exact:} the read and isoform paths are identical.
 \item
-  \textbf{Compatible and contained with boundary anchoring:} Read path is fully contained within the isoform path as a consecutive segment. Any terminal-boundary node present on the read must be present and identical on the isoform, however, an isoform boundary may be absent from the read.
+  \textbf{Contained:} the read path appears in the isoform path as a consecutive run of nodes.
 \item
-  \textbf{Introns contained with boundary anchoring:} All read introns appear in the isoform in the same order within the read's genomic span, with no extra isoform introns intervening, and ≥75\% read alignment overlap with isoform structure. Any terminal-boundary node present on the read must be present and identical on the isoform, however, an isoform boundary may be absent from the read.
+  \textbf{Intron-compatible:} the read's introns are exactly the isoform's introns within the read's span, in the same order, and the read overlap is at least 75\%.
 \item
-  \textbf{Compatible overlap with boundary anchoring:} Read and isoform are compatible (no conflicting introns) across their overlapping region, with no gaps in the overlap, and ≥75\% read coverage. Any terminal-boundary node present on the read must be present and identical on the isoform; an isoform boundary may be absent from the read.
-\item
-  \textbf{Compatible overlap without boundary anchoring:} The separate boundary-anchoring check is disabled, but TSS and PolyA nodes remain in both paths during the gap-free overlap test. A boundary present on only one path can be tolerated, whereas different explicit boundary nodes can still prevent compatibility.
+  \textbf{Overlap-compatible:} from the first node the two paths share, they agree node for node, with no gaps, until one of them ends, and the read overlap is at least 75\%.
 \end{enumerate}
 
-\subsubsection{Phase 2: Boundary-trimmed assignment (TSS/PolyA nodes removed)}\label{phase-2-boundary-trimmed-assignment}
-
-If no assignment is made in Phase 1, TSS and PolyA nodes are trimmed from both read and isoform paths, and compatibility tests are applied without boundary constraints:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{5}
-\item
-  \textbf{Exact match:} Trimmed paths match exactly.
-\item
-  \textbf{Compatible and contained:} Trimmed read path is fully contained in the isoform as a consecutive segment.
-\item
-  \textbf{Introns contained:} All read introns appear in the isoform in the same order within the read's genomic span, with no extra isoform introns intervening, and ≥75\% read overlap with isoform structure.
-\item
-  \textbf{Compatible overlap:} Read and isoform are compatible (no conflicting introns) across their overlapping region, with no gaps in the overlap, and ≥75\% read coverage.
-\end{enumerate}
+A test is boundary-anchored when, in addition, any TSS or PolyA node on the read must be present and identical on the isoform; an isoform boundary may be absent from the read. The cascade has nine steps in two phases, applied to all data regardless of sequencing platform, and stops at the first step that finds a compatible isoform. Phase 1 keeps TSS and PolyA nodes in both paths. Steps 1--4 apply tests (i)--(iv) with boundary anchoring, and step 5 applies test (iv) without anchoring, so a boundary present on only one path is tolerated, but conflicting boundary nodes still prevent compatibility. Phase 2 trims TSS and PolyA nodes from both paths and applies tests (i)--(iv) again as steps 6--9, so that a read whose TSS or PolyA node conflicts with those of every candidate isoform can still be assigned by its splice structure.
 
 For labeled read paths compatible with multiple isoforms, assignment ambiguity is resolved during quantification using relative expression estimates from EM and a strand-specific 3′-agreement weight, as described below.
 
