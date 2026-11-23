@@ -92,9 +92,9 @@ LRAA performs transcriptome-based rescue of reads that cannot be assigned throug
 
 During construction of labeled read paths, LRAA applies a constrained terminal-boundary snapping step before read-to-isoform compatibility testing, integrating a TSS or PolyA site node not already present in the read path when it is directly adjacent to the read's terminal node, lies within 25 bp of the read end, and that read end has no soft clip. Each labeled read path is compared against the labeled paths of candidate isoforms, defined as the isoforms of any gene sharing at least one splice-graph node with the read path. Assignment proceeds through a cascading hierarchy of stringency levels, attempting the most stringent criteria first and progressively relaxing constraints until a compatible isoform is identified.
 
-The assignment cascade operates in two phases reflecting HiFi and non-HiFi data characteristics. HiFi-style assignment (Phase 1) retains TSS and PolyA nodes during compatibility testing. In steps 1--4, a terminal-boundary node present on the read must also be present and identical on the isoform, whereas an isoform boundary may be absent from the read, and step 1 additionally requires complete path identity. Step 5 disables this explicit anchoring requirement but retains boundary nodes in both paths. If no assignment is made under HiFi rules, the algorithm falls back to non-HiFi-style assignment (Phase 2), trimming boundary nodes entirely to accommodate reads lacking reliable terminal information. Within each phase, multiple compatibility tests are applied in order of decreasing stringency.
+The assignment cascade has two phases, and both are applied to all data regardless of sequencing platform. Phase 1 retains TSS and PolyA nodes during compatibility testing. In steps 1--4, a terminal-boundary node present on the read must also be present and identical on the isoform, whereas an isoform boundary may be absent from the read, and step 1 additionally requires complete path identity. Step 5 disables this explicit anchoring requirement but retains boundary nodes in both paths. A read not assigned in Phase 1 moves to Phase 2, which trims boundary nodes from both paths, so that a read whose TSS or PolyA node conflicts with those of every candidate isoform can still be assigned by its splice structure. Within each phase, multiple compatibility tests are applied in order of decreasing stringency.
 
-\subsubsection{Phase 1: HiFi-style assignment (TSS/PolyA boundaries respected)}\label{phase-1-hifi-style-assignment-tsspolya-boundaries-respected}
+\subsubsection{Phase 1: Boundary-aware assignment (TSS/PolyA nodes retained)}\label{phase-1-boundary-aware-assignment}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -110,7 +110,7 @@ The assignment cascade operates in two phases reflecting HiFi and non-HiFi data 
   \textbf{Compatible overlap without boundary anchoring:} The separate boundary-anchoring check is disabled, but TSS and PolyA nodes remain in both paths during the gap-free overlap test. A boundary present on only one path can be tolerated, whereas different explicit boundary nodes can still prevent compatibility.
 \end{enumerate}
 
-\subsubsection{Phase 2: Non-HiFi-style assignment (TSS/PolyA boundaries ignored)}\label{phase-2-non-hifi-style-assignment-tsspolya-boundaries-ignored}
+\subsubsection{Phase 2: Boundary-trimmed assignment (TSS/PolyA nodes removed)}\label{phase-2-boundary-trimmed-assignment}
 
 If no assignment is made in Phase 1, TSS and PolyA nodes are trimmed from both read and isoform paths, and compatibility tests are applied without boundary constraints:
 
