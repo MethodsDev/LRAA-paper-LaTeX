@@ -128,9 +128,9 @@ Let \(\mathbf{p} = (p_1, \ldots, p_K)\) be the isoform proportions within a quan
 
 where \(C_{ri} \in \{0,1\}\) indicates compatibility between RCC \(r\) and isoform \(i\), and \(w_{ri}\) is the 3\p{}-agreement weight defined above.
 
-In the \textbf{expectation step}, posterior probabilities (i.e. fractions of each RCC assigned to each compatible isoform) are computed per RCC:
+In the \textbf{expectation step}, posterior probabilities (i.e. fractions of each RCC assigned to each compatible isoform) are computed per RCC as the share of its likelihood contributed by each isoform:
 
-\[\gamma_{ri} = \frac{p_i \cdot w_{ri}}{\sum_{j: C_{rj}=1} p_j \cdot w_{rj}}\]
+\[\gamma_{ri} = \frac{p_i \cdot w_{ri}}{P(r \mid \mathbf{p})} = \frac{p_i \cdot w_{ri}}{\sum_{j: C_{rj}=1} p_j \cdot w_{rj}}\]
 
 In the \textbf{maximization step}, LRAA updates each isoform proportion using its expected read count together with a regularizing prior. Let \(A_i\) be the total read count across ambiguous RCCs whose compatibility sets include isoform \(i\). The isoform-specific prior mass is \(\alpha_i = \alpha A_i,\) where \(\alpha\) is the base concentration. Each ambiguous RCC contributes its full read count to \(A_i\) for every compatible isoform. Thus, \(\alpha_i\) is a compatibility-based pseudocount. If isoform \(i\) has no ambiguous RCC support, then \(A_i = 0\) and \(\alpha_i = 0\).
 
