@@ -134,7 +134,7 @@ In the \textbf{expectation step}, posterior probabilities (i.e. fractions of eac
 
 In the \textbf{maximization step}, LRAA updates each isoform proportion from its expected read count. On its own, EM tends to amplify small differences in distinguishing read support: over repeated updates, an isoform supported mainly by reads it shares with other isoforms, with few uniquely assignable reads, can lose nearly all of them to competing isoforms and be driven toward zero abundance, even though those reads do not rule it out. To keep unresolved read compatibility from being taken as evidence that an isoform is not expressed, LRAA adds a regularizing prior that scales with each isoform's ambiguous read support. Let \(A_i\) be the total read count across ambiguous RCCs whose compatibility sets include isoform \(i\). The pseudocount added to isoform \(i\) is \(\alpha_i = \alpha A_i,\) where \(\alpha\), the pseudocount fraction, is the share of the isoform's ambiguous read count that is added (1\% by default in final quantification). Each ambiguous RCC contributes its full read count to \(A_i\) for every compatible isoform. If isoform \(i\) has no ambiguous RCC support, then \(A_i = 0\) and \(\alpha_i = 0\).
 
-Given the fractional assignments from the expectation step, the prior-adjusted expected read count for isoform \(i\) is
+Given the fractional assignments from the expectation step, the adjusted expected read count for isoform \(i\), its expected read count plus its pseudocount, is
 
 \[\widetilde{N}_i^{(t+1)}=\sum_{r:\,i\in C_r}n_r\gamma_{ri}^{(t)}+\alpha_i,\]
 
