@@ -101,11 +101,11 @@ The assignment cascade has two phases, and both are applied to all data regardle
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Exact match with boundary anchoring:} The read and isoform paths must match end-to-end. Because complete path identity is required, their terminal-boundary nodes must also be identical; a boundary present on only one path prevents an exact match.
+  \textbf{Exact match with boundary anchoring:} The read and isoform paths must match end-to-end, including terminal TSS or PolyA nodes where they exist.
 \item
-  \textbf{Compatible and contained with boundary anchoring:} Read path is fully contained within the isoform path as a consecutive segment. Any terminal-boundary node present on the read must be present and identical on the isoform; an isoform boundary may be absent from the read.
+  \textbf{Compatible and contained with boundary anchoring:} Read path is fully contained within the isoform path as a consecutive segment. Any terminal-boundary node present on the read must be present and identical on the isoform, however, an isoform boundary may be absent from the read.
 \item
-  \textbf{Introns contained with boundary anchoring:} All read introns appear in the isoform in the same order within the read's genomic span, with no extra isoform introns intervening, and ≥75\% read overlap with isoform structure. Any terminal-boundary node present on the read must be present and identical on the isoform; an isoform boundary may be absent from the read.
+  \textbf{Introns contained with boundary anchoring:} All read introns appear in the isoform in the same order within the read's genomic span, with no extra isoform introns intervening, and ≥75\% read alignment overlap with isoform structure. Any terminal-boundary node present on the read must be present and identical on the isoform, however, an isoform boundary may be absent from the read.
 \item
   \textbf{Compatible overlap with boundary anchoring:} Read and isoform are compatible (no conflicting introns) across their overlapping region, with no gaps in the overlap, and ≥75\% read coverage. Any terminal-boundary node present on the read must be present and identical on the isoform; an isoform boundary may be absent from the read.
 \item
